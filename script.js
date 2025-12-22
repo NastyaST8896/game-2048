@@ -1,6 +1,8 @@
 const board = document.querySelector('#board');
 const modal = document.querySelector('#modal');
 const newGameBtn = document.querySelector('#newGameBtn');
+const spanScore = document.querySelector('#score');
+const spanBest = document.querySelector('#best');
 
 const cellContents = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -17,6 +19,9 @@ const groupCellsRow = [
     [8, 9, 10, 11],
     [12, 13, 14, 15],
 ];
+
+let score = +JSON.parse(localStorage.getItem('score'));
+let best = +JSON.parse(localStorage.getItem('best'));
 
 function getNumber() {
     return Math.round(Math.random() * 100) >= 10 ? 2 : 4;
@@ -54,6 +59,7 @@ function addFirstNumbers() {
             }
         });
     });
+    score = 0;
 }
 
 addFirstNumbers();
@@ -64,8 +70,8 @@ function addLastNumbers() {
             if (item === 0) return index;
         })
         .filter((item) => item !== undefined);
-    let randomNumber
-    if(freeCells.length > 1) {
+    let randomNumber;
+    if (freeCells.length > 1) {
         randomNumber = getCell(1, freeCells.length - 1);
 
         cellContents[freeCells[randomNumber]] = getNumber();
@@ -84,9 +90,14 @@ function renderBoard() {
         if (cellContents[i - 1] !== 0) {
             cell.textContent = `${ cellContents[i - 1] }`;
         }
-
+        spanScore.innerText = `${ score }`;
+        spanBest.innerText = `${ best }`;
         board.append(cell);
+
     }
+
+    localStorage.setItem('score', JSON.stringify(score));
+    localStorage.setItem('best', JSON.stringify(best));
 }
 
 renderBoard();
@@ -127,7 +138,7 @@ const handleKeydown = (event) => {
                             cellContents[cellsColumn[i]] = 0;
                         }
                     }
-
+                    score += (values[0] + values[1]);
                 } else {
                     for (let i = 0; i < cellsColumn.length; i++) {
                         if (event.key === 'ArrowUp' && (i === 0 || i === 1)) {
@@ -157,6 +168,7 @@ const handleKeydown = (event) => {
                 if (valuesFor3[0] === valuesFor3[1]) {
                     newValues.push(valuesFor3[0] + valuesFor3[1]);
                     newValues.push(valuesFor3[2]);
+                    score += valuesFor3[0] + valuesFor3[1];
                 }
 
                 if (valuesFor3[0] !== valuesFor3[1]) {
@@ -164,6 +176,7 @@ const handleKeydown = (event) => {
                 }
                 if (valuesFor3[0] !== valuesFor3[1] && valuesFor3[1] === valuesFor3[2]) {
                     newValues.push(valuesFor3[1] + valuesFor3[2]);
+                    score += valuesFor3[1] + valuesFor3[2];
                 }
 
                 if (valuesFor3[0] !== valuesFor3[1] && valuesFor3[1] !== valuesFor3[2]) {
@@ -209,15 +222,19 @@ const handleKeydown = (event) => {
                 }
                 if (valuesFor4[0] === valuesFor4[1] && valuesFor4[2] !== valuesFor4[3]) {
                     newValues.push(valuesFor4[0] + valuesFor4[1], valuesFor4[2], valuesFor4[3]);
+                    score += valuesFor4[0] + valuesFor4[1];
                 }
                 if (valuesFor4[0] === valuesFor4[1] && valuesFor4[2] === valuesFor4[3]) {
                     newValues.push(valuesFor4[0] + valuesFor4[1], valuesFor4[2] + valuesFor4[3]);
+                    score += valuesFor4[0] + valuesFor4[1] + valuesFor4[2] + valuesFor4[3];
                 }
                 if (valuesFor4[0] !== valuesFor4[1] && valuesFor4[1] === valuesFor4[2]) {
                     newValues.push(valuesFor4[0], valuesFor4[1] + valuesFor4[2], valuesFor4[3]);
+                    score += valuesFor4[1] + valuesFor4[2];
                 }
                 if (valuesFor4[0] !== valuesFor4[1] && valuesFor4[1] !== valuesFor4[2] && valuesFor4[2] === valuesFor4[3]) {
                     newValues.push(valuesFor4[0], valuesFor4[1], valuesFor4[2] + valuesFor4[3]);
+                    score += valuesFor4[2] + valuesFor4[3];
                 }
 
                 for (let i = 0; i < cellsColumn.length; i++) {
@@ -286,7 +303,7 @@ const handleKeydown = (event) => {
                             cellContents[cellsRow[i]] = 0;
                         }
                     }
-
+                    score += valuesRow[0] + valuesRow[1];
                 } else {
                     for (let i = 0; i < cellsRow.length; i++) {
                         if (event.key === 'ArrowLeft' && (i === 0 || i === 1)) {
@@ -316,6 +333,7 @@ const handleKeydown = (event) => {
                 if (rowValuesFor3[0] === rowValuesFor3[1]) {
                     newValuesForRow.push(rowValuesFor3[0] + rowValuesFor3[1]);
                     newValuesForRow.push(rowValuesFor3[2]);
+                    score += rowValuesFor3[0] + rowValuesFor3[1];
                 }
 
                 if (rowValuesFor3[0] !== rowValuesFor3[1]) {
@@ -323,6 +341,7 @@ const handleKeydown = (event) => {
                 }
                 if (rowValuesFor3[0] !== rowValuesFor3[1] && rowValuesFor3[1] === rowValuesFor3[2]) {
                     newValuesForRow.push(rowValuesFor3[1] + rowValuesFor3[2]);
+                    score += rowValuesFor3[1] + rowValuesFor3[2];
                 }
 
                 if (rowValuesFor3[0] !== rowValuesFor3[1] && rowValuesFor3[1] !== rowValuesFor3[2]) {
@@ -368,15 +387,19 @@ const handleKeydown = (event) => {
                 }
                 if (rowValuesFor4[0] === rowValuesFor4[1] && rowValuesFor4[2] !== rowValuesFor4[3]) {
                     newValuesForRow.push(rowValuesFor4[0] + rowValuesFor4[1], rowValuesFor4[2], rowValuesFor4[3]);
+                    score += rowValuesFor4[0] + rowValuesFor4[1];
                 }
                 if (rowValuesFor4[0] === rowValuesFor4[1] && rowValuesFor4[2] === rowValuesFor4[3]) {
                     newValuesForRow.push(rowValuesFor4[0] + rowValuesFor4[1], rowValuesFor4[2] + rowValuesFor4[3]);
+                    score += rowValuesFor4[0] + rowValuesFor4[1] + rowValuesFor4[2] + rowValuesFor4[3];
                 }
                 if (rowValuesFor4[0] !== rowValuesFor4[1] && rowValuesFor4[1] === rowValuesFor4[2]) {
                     newValuesForRow.push(rowValuesFor4[0], rowValuesFor4[1] + rowValuesFor4[2], rowValuesFor4[3]);
+                    score += rowValuesFor4[1] + rowValuesFor4[2];
                 }
                 if (rowValuesFor4[0] !== rowValuesFor4[1] && rowValuesFor4[1] !== rowValuesFor4[2] && rowValuesFor4[2] === rowValuesFor4[3]) {
                     newValuesForRow.push(rowValuesFor4[0], rowValuesFor4[1], rowValuesFor4[2] + rowValuesFor4[3]);
+                    score += rowValuesFor4[2] + rowValuesFor4[3];
                 }
 
                 for (let i = 0; i < cellsRow.length; i++) {
@@ -417,6 +440,10 @@ const handleKeydown = (event) => {
 
     board.innerHTML = '';
 
+    if (score > best) {
+        best = score;
+    }
+
     if (modifiedArrayElements.length > 0) {
         addLastNumbers();
     }
@@ -424,8 +451,8 @@ const handleKeydown = (event) => {
     renderBoard();
 
     const win = cellContents.includes(2048);
-    if(win) {
-        modal.classList.add("modal--active");
+    if (win) {
+        modal.classList.add('modal--active');
         modal.textContent = 'You win!';
         document.removeEventListener('keydown', handleKeydown);
     }
@@ -438,38 +465,38 @@ const handleKeydown = (event) => {
     if (!emptyCells) {
         repeatColumn:for (let i = 0; i < groupCellsColumn.length; i++) {
             for (let j = 0; j < groupCellsColumn[i].length; j++) {
-                if (cellContents[groupCellsColumn[i][j]] === cellContents[groupCellsColumn[i][j+1]]) {
-                columnsRepeatCells = true;
-                break repeatColumn;
+                if (cellContents[groupCellsColumn[i][j]] === cellContents[groupCellsColumn[i][j + 1]]) {
+                    columnsRepeatCells = true;
+                    break repeatColumn;
                 } else {
-                columnsRepeatCells = false;
+                    columnsRepeatCells = false;
                 }
             }
         }
 
         repeatRow:for (let i = 0; i < groupCellsRow.length; i++) {
-                for (let j = 0; j < groupCellsRow[i].length; j++) {
-                    if (cellContents[groupCellsRow[i][j]] !== cellContents[groupCellsRow[i][j+1]]) {
-                        rowRepeatCells = false;
-                    } else {
-                        rowRepeatCells = true;
-                        break repeatRow;
-                    }
+            for (let j = 0; j < groupCellsRow[i].length; j++) {
+                if (cellContents[groupCellsRow[i][j]] !== cellContents[groupCellsRow[i][j + 1]]) {
+                    rowRepeatCells = false;
+                } else {
+                    rowRepeatCells = true;
+                    break repeatRow;
                 }
+            }
         }
 
         if (!columnsRepeatCells && !rowRepeatCells) {
-            modal.classList.add("modal--active");
+            modal.classList.add('modal--active');
             modal.textContent = 'Game Over!';
             document.removeEventListener('keydown', handleKeydown);
         }
     }
-}
+};
 
 document.addEventListener('keydown', handleKeydown);
 
 newGameBtn.addEventListener('click', (event) => {
-    modal.classList.remove("modal--active");
+    modal.classList.remove('modal--active');
     document.addEventListener('keydown', handleKeydown);
     board.innerHTML = '';
     for (let i = 0; i < cellContents.length; i++) {
@@ -481,5 +508,5 @@ newGameBtn.addEventListener('click', (event) => {
     addCellNumber();
     addFirstNumbers();
     renderBoard();
-})
+});
 
