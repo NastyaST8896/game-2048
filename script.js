@@ -1,4 +1,6 @@
 const board = document.querySelector('#board');
+const modal = document.querySelector('#modal');
+const newGameBtn = document.querySelector('#newGameBtn');
 
 const cellContents = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -62,7 +64,6 @@ function addLastNumbers() {
             if (item === 0) return index;
         })
         .filter((item) => item !== undefined);
-    console.log(freeCells);
     let randomNumber
     if(freeCells.length > 1) {
         randomNumber = getCell(1, freeCells.length - 1);
@@ -90,7 +91,7 @@ function renderBoard() {
 
 renderBoard();
 
-document.addEventListener('keydown', (event) => {
+const handleKeydown = (event) => {
     const cellContentsBeforeChanges = Array.from(cellContents);
 
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
@@ -410,15 +411,75 @@ document.addEventListener('keydown', (event) => {
         });
     }
 
-    board.innerHTML = '';
-
     const modifiedArrayElements = cellContentsBeforeChanges.filter((item, index) => {
         return cellContents[index] !== item;
     });
 
+    board.innerHTML = '';
+
     if (modifiedArrayElements.length > 0) {
         addLastNumbers();
     }
+
     renderBoard();
-});
+
+    const win = cellContents.includes(2048);
+    if(win) {
+        modal.classList.add("modal--active");
+        modal.textContent = 'You win!';
+        document.removeEventListener('keydown', handleKeydown);
+    }
+
+    const emptyCells = cellContents.includes(0);
+
+    let columnsRepeatCells;
+    let rowRepeatCells;
+
+    if (!emptyCells) {
+        repeatColumn:for (let i = 0; i < groupCellsColumn.length; i++) {
+            for (let j = 0; j < groupCellsColumn[i].length; j++) {
+                if (cellContents[groupCellsColumn[i][j]] === cellContents[groupCellsColumn[i][j+1]]) {
+                columnsRepeatCells = true;
+                break repeatColumn;
+                } else {
+                columnsRepeatCells = false;
+                }
+            }
+        }
+
+        repeatRow:for (let i = 0; i < groupCellsRow.length; i++) {
+                for (let j = 0; j < groupCellsRow[i].length; j++) {
+                    if (cellContents[groupCellsRow[i][j]] !== cellContents[groupCellsRow[i][j+1]]) {
+                        rowRepeatCells = false;
+                    } else {
+                        rowRepeatCells = true;
+                        break repeatRow;
+                    }
+                }
+        }
+
+        if (!columnsRepeatCells && !rowRepeatCells) {
+            modal.classList.add("modal--active");
+            modal.textContent = 'Game Over!';
+            document.removeEventListener('keydown', handleKeydown);
+        }
+    }
+}
+
+document.addEventListener('keydown', handleKeydown);
+
+newGameBtn.addEventListener('click', (event) => {
+    modal.classList.remove("modal--active");
+    document.addEventListener('keydown', handleKeydown);
+    board.innerHTML = '';
+    for (let i = 0; i < cellContents.length; i++) {
+        cellContents[i] = 0;
+    }
+    for (let i = 0; i < 2; i++) {
+        number.push(getNumber());
+    }
+    addCellNumber();
+    addFirstNumbers();
+    renderBoard();
+})
 
