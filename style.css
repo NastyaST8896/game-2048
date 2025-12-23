@@ -23,8 +23,8 @@ main {
     align-items: center;
     text-align: center;
     flex-direction: column;
-    gap: 50px;
-    padding: 50px;
+    gap: 40px;
+    padding: 40px;
 }
 
 .container-counter {
@@ -67,7 +67,7 @@ main {
     background-color: transparent;
     justify-content: center;
     align-content: center;
-    z-index: 0;
+    z-index: 1;
     
 }
 
@@ -83,7 +83,7 @@ main {
 .modal {
     display: none;
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     background-color: rgba(250, 236, 74, 0.2);
     top: 50%;
     left: 50%;
@@ -100,7 +100,15 @@ main {
     color: white;
 }
 
-.newGameBtn {
+.buttons {
+    max-width: 450px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn {
     background-color: rgb(113, 240, 225);
     font-size: 30px;
     padding: 10px;
@@ -112,14 +120,85 @@ main {
     outline: none;
 }
 
-.newGameBtn:hover {
+.btn:hover {
     border: 2px solid rgb(21, 186, 167);
     transform: scale(1.2);
     transition-duration: 0.4s;
 }
 
-.newGameBtn:active {
+.btn:active {
     border: 2px solid rgb(21, 186, 167);
     transform: scale(1);
     transition-duration: 0.4s;
+}
+
+.newGameModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    background-color: rgba(16, 140, 126, 0.667);
+}
+
+.container-modal {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    max-width: 450px;
+    width: 100%;
+    font-size: 80px;
+}
+
+.modal-title {
+    font-size: 40px;
+}
+
+.modal-text {
+    margin: 0;
+}
+
+.royalBlue {
+    background-color: rgb(65,105,225);
+}
+
+.steelBlue {
+    background-color: rgb(70,130,180);
+}
+
+.cadetBlue {
+    background-color: rgb(95,158,160);
+}
+
+.mediumSlateBlue{
+    background-color: rgb(123,104,238);
+}
+
+.cornflowerBlue {
+    background-color: rgb(100,149,237);
+}
+
+.dodgerBlue {
+    background-color: rgb(30,144,255);
+}
+
+.deepSkyBlue {
+    background-color: rgb(0,191,255);
+}
+
+.lightSkyBlue {
+    background-color: rgb(135,206,250);
+}
+
+.lightSteelBlue {
+    background-color: rgb(176,196,222);
+}
+
+.aqua {
+    background-color: rgb(0,255,255);
+}
+
+.aquamarine {
+    background-color: rgb(127,255,212);
 }
