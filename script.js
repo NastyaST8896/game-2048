@@ -4,7 +4,7 @@ const newGameBtn = document.querySelector('#newGameBtn');
 const spanScore = document.querySelector('#score');
 const spanBest = document.querySelector('#best');
 
-const cellContents = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const cellContents = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
 const groupCellsColumn = [
     [0, 4, 8, 12],
@@ -62,7 +62,7 @@ function addFirstNumbers() {
     score = 0;
 }
 
-addFirstNumbers();
+  addFirstNumbers();  
 
 function addLastNumbers() {
     const freeCells = cellContents
@@ -82,13 +82,35 @@ function addLastNumbers() {
 
 function renderBoard() {
 
-    for (let i = 1; i < 17; i++) {
+    for (let i = 0; i < 16; i++) {
         let cell = document.createElement('div');
         cell.className = 'cell';
-        cell.id = `${ i }`;
 
-        if (cellContents[i - 1] !== 0) {
-            cell.textContent = `${ cellContents[i - 1] }`;
+        if (cellContents[i] !== 0) {
+            cell.textContent = `${ cellContents[i] }`;
+            if(cellContents[i] === 2) {
+                cell.classList.add('aquamarine');
+            } else if (cellContents[i] === 4) {
+                cell.classList.add('aqua');
+            } else if (cellContents[i] === 8) {
+                cell.classList.add('lightSteelBlue');
+            } else if (cellContents[i] === 16) {
+                cell.classList.add('lightSkyBlue');
+            } else if (cellContents[i] === 32) {
+                cell.classList.add('deepSkyBlue');
+            } else if (cellContents[i] === 64) {
+                cell.classList.add('dodgerBlue');
+            } else if (cellContents[i] === 128) {
+                cell.classList.add('cornflowerBlue');
+            } else if (cellContents[i] === 256) {
+                cell.classList.add('mediumSlateBlue');
+            } else if (cellContents[i] === 512) {
+                cell.classList.add('cadetBlue');
+            } else if (cellContents[i] === 1024) {
+                cell.classList.add('steelBlue');
+            } else if (cellContents[i] === 2048) {
+                cell.classList.add('royalBlue');
+            }
         }
         spanScore.innerText = `${ score }`;
         spanBest.innerText = `${ best }`;
