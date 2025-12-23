@@ -25,6 +25,10 @@ const twoRandomNumbersForCells = [];
 const twoRandomCellsIndex = [];
 
 const handleKeydown = (event) => {
+    if (event.key.includes('Arrow')) {
+        event.preventDefault();
+    }
+
     const cellContentsBeforeChanges = Array.from(cellsContent); // [...cellsContent]
 
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
@@ -506,10 +510,12 @@ function initializingTheGame() {
         for(let i = 0; i < cellsContent.length; i++) {
         cellsContent[i] = saveCellsContent[i];
         }
+        score = +JSON.parse(JSON.stringify(localStorage.getItem('saveScore')));
     } else {
         for (let i = 0; i < cellsContent.length; i++) {
         cellsContent[i] = 0;
         }
+
         for (let i = 0; i < 2; i++) {
         twoRandomNumbersForCells.push(getRandomNumber());
         }
@@ -528,10 +534,13 @@ newGameBtn.addEventListener('click', (event) => {
     modal.classList.remove('modal--active');
     document.addEventListener('keydown', handleKeydown);
     board.innerHTML = '';
+    localStorage.setItem('cellsContent', JSON.stringify([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]));
     saveCellsContent = 0;
+    localStorage.setItem('saveScore', JSON.stringify(0));
     initializingTheGame();
 });
 
 saveGameBtn.addEventListener('click', (event) => {
     localStorage.setItem('cellsContent', JSON.stringify(cellsContent));
+    localStorage.setItem('saveScore', JSON.stringify(score));
 })

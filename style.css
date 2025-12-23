@@ -143,6 +143,10 @@ main {
 }
 
 .container-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    text-align: right;
     position: absolute;
     top: 10%;
     left: 10%;
