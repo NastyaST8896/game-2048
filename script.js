@@ -4,6 +4,9 @@ const newGameBtn = document.querySelector('#newGameBtn');
 const spanScore = document.querySelector('#score');
 const spanBest = document.querySelector('#best');
 const saveGameBtn = document.querySelector('#saveGameBtn');
+const newGameModal = document.querySelector('#newGameModal')
+const startNewGameBtn = document.querySelector('#startNewGameBtn');
+const cancelBtn = document.querySelector('#cancelBtn');
 
 const cellsContent = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let saveCellsContent = JSON.parse(localStorage.getItem('cellsContent'));
@@ -526,11 +529,7 @@ function initializingTheGame() {
     renderBoard();
 }
 
-initializingTheGame();
-
-document.addEventListener('keydown', handleKeydown);
-
-newGameBtn.addEventListener('click', (event) => {
+function initializingNewGame() {
     modal.classList.remove('modal--active');
     document.addEventListener('keydown', handleKeydown);
     board.innerHTML = '';
@@ -538,6 +537,29 @@ newGameBtn.addEventListener('click', (event) => {
     saveCellsContent = 0;
     localStorage.setItem('saveScore', JSON.stringify(0));
     initializingTheGame();
+    newGameModal.classList.remove('newGameModal--active');
+}
+
+initializingTheGame();
+
+document.addEventListener('keydown', handleKeydown);
+
+newGameBtn.addEventListener('click', (event) => {
+    const  isCellsContentEmpty = cellsContent.every((item) => item === 0);
+
+    if(isCellsContentEmpty) {
+        initializingNewGame()
+    } else {
+        newGameModal.classList.add('newGameModal--active');
+
+        startNewGameBtn.addEventListener('click', (event) => {
+            initializingNewGame()
+        })
+
+        cancelBtn.addEventListener('click', (event) => {
+            newGameModal.classList.remove('newGameModal--active');
+        })
+    }
 });
 
 saveGameBtn.addEventListener('click', (event) => {

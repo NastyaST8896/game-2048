@@ -1,7 +1,7 @@
 body {
     font-family: "DejaVu Serif", serif;
     color: rgb(255, 255, 255);
-    font-size: 80px;
+    font-size: clamp(40px, calc(25.455px + 4.545vw), 80px);
     margin: 0;
     padding: 0;
 }
@@ -14,7 +14,7 @@ h1 {
     text-align: center;
     margin-top: 50px;
     color: rgb(23, 218, 195);
-    font-size: 50px;
+    font-size: clamp(20px, calc(12.727px + 2.273vw), 40px);
 }
 
 main {
@@ -24,7 +24,7 @@ main {
     text-align: center;
     flex-direction: column;
     gap: 40px;
-    padding: 40px;
+    padding: 40px 0;
 }
 
 .container-counter {
@@ -41,29 +41,27 @@ main {
     flex-direction: column;
     gap: 5px;
     background-color: rgb(113, 240, 225);
-    border: 10px solid rgb(21, 186, 167);
-    border-radius: 10px;
-    font-size: 18px;
-    width: 100px;
-    padding: 10px;
+    border: clamp(5px, calc(3.182px + 0.568vw), 10px) solid rgb(21, 186, 167);
+    border-radius: clamp(5px, calc(3.182px + 0.568vw), 10px);
+    font-size: clamp(14px, calc(12.545px + 0.455vw), 18px);
+    width: clamp(50px, calc(31.818px + 5.682vw), 100px);
+    padding:  clamp(5px, calc(3.182px + 0.568vw), 10px);
 }
 
 .container-board {
-    max-width: 450px;
-    width: 100%;
-    padding: 10px 0;
+    padding: clamp(5px, calc(3.182px + 0.568vw), 10px);
     background-color: rgb(21, 186, 167);
     margin: 0 auto;
-    border-radius: 10px;
+    border-radius: clamp(5px, calc(3.182px + 0.568vw), 10px);
     position: relative;
 }
 
 .board {
     display: grid;
-    grid-template-columns: repeat(4, 100px);
-    grid-template-rows: repeat(4, 100px);
+    grid-template-columns: repeat(4, 6vw);
+    grid-template-rows: repeat(4, 6vw);
     place-content: center;
-    gap: 10px;
+    gap: clamp(5px, calc(3.182px + 0.568vw), 10px);
     background-color: transparent;
     justify-content: center;
     align-content: center;
@@ -76,7 +74,7 @@ main {
     align-items: center;
     justify-content: center;
     background-color: rgb(113, 240, 225);
-    border-radius: 10px;
+    border-radius: clamp(5px, calc(3.182px + 0.568vw), 10px);
     font-size: 30px;
 }
 
@@ -104,13 +102,14 @@ main {
     max-width: 450px;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 10px;
 }
 
 .btn {
     background-color: rgb(113, 240, 225);
-    font-size: 30px;
+    font-size: clamp(16px, calc(10.909px + 1.591vw), 30px);
     padding: 10px;
     border-radius: 10px;
     border: 2px solid transparent;
@@ -133,6 +132,7 @@ main {
 }
 
 .newGameModal {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -142,17 +142,18 @@ main {
     background-color: rgba(16, 140, 126, 0.667);
 }
 
+.newGameModal--active {
+    display: block;
+}
+
 .container-modal {
     display: flex;
     flex-direction: column;
+    gap: 10px;
     align-items: end;
-    text-align: right;
     position: absolute;
-    top: 10%;
-    left: 10%;
-    max-width: 450px;
-    width: 100%;
-    font-size: 80px;
+    top: 5%;
+    left: 5%;
 }
 
 .modal-title {
@@ -161,6 +162,14 @@ main {
 
 .modal-text {
     margin: 0;
+    font-size: clamp(30px, calc(11.818px + 5.682vw), 80px);
+}
+
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
 }
 
 .royalBlue {
@@ -205,4 +214,19 @@ main {
 
 .aquamarine {
     background-color: rgb(127,255,212);
+}
+
+@media (max-width: 1760px) {
+    .container-modal {
+        align-items: center;
+        text-align: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .board {
+    grid-template-columns: repeat(4, 8vw);
+    grid-template-rows: repeat(4, 8vw);  
+}
 }
